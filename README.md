@@ -5,4 +5,4 @@ A reprository built to automatically track and graph the Barro Colorado Island c
 It is build on a test-driven platform, and uses a makefile to initiate webscraping, analysis and graphing. It has a refresh rate of once a month. This github version will however be updated less frequently as I intend to maintain this manually.
 
 ### Acknowledgements
-Kudo's to @trinker for inspiring me to move to R for web scraping
+Cudo's to @trinker for inspiring me to move to R for web scraping
