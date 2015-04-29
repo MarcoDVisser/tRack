@@ -1,0 +1,64 @@
+
+R version 3.1.2 (2014-10-31) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+
+   Welcome to R!
+
+   Today is Wed Apr 29 10:01:08 2015 
+
+   Please consider that, I am currently executing the following
+%CPU   PID CPUID USER     COMMAND
+ 3.0 23330     6 marcov   /opt/google/chrome/chrome --type=renderer --enable-deferred-image-decoding --lang=en-US --force-fieldtrials=CTRequiredForEVTrial/RequirementEnforced/ChromeSuggestions/Default/DomRel-Enable/enable/EnhancedBookmarks/Default/ExtensionContentVerification/Enforce/ExtensionInstallVerification/None/NewProfileManagement/Enabled/OmniboxBundledExperimentV1/Stable_EthersuggestPrefix_A6/PasswordGeneration/Disabled/PrerenderFromOmnibox/OmniboxPrerenderEnabled/RememberCertificateErrorDecisions/Disable/SHA1ToolbarUIJanuary2017/HTTP/SafeBrowsingIncidentReportingService/Default/SettingsEnforcement/no_enforcement/UMA-Dynamic-Binary-Uniformity-Trial/default/UMA-Population-Restrict/normal/UMA-Uniformity-Trial-1-Percent/group_61/UMA-Uniformity-Trial-10-Percent/group_09/UMA-Uniformity-Trial-100-Percent/group_01/UMA-Uniformity-Trial-20-Percent/group_03/UMA-Uniformity-Trial-5-Percent/group_19/UMA-Uniformity-Trial-50-Percent/default/UwSInterstitialStatus/On/VoiceTrigger/Install/WebRTC-IPv6Default/Disabled/ --enab
+10.0 25123     0 marcov   /usr/lib/R/bin/exec/R -f R/scrapeTest.R --restore --save --no-readline
+ 0.9 29781     1 marcov   /usr/lib/virtualbox/VirtualBox --comment win7 --startvm 550dc0e4-caa8-49da-a781-adbf7a7840a7 --no-startvm-errormsgbox
+ 0.7 29369     2 marcov   /usr/lib/R/bin/exec/R
+ 0.7 20077     7 marcov   /home/marcov/.dropbox-dist/dropbox-lnx.x86_64-3.4.4/dropbox
+ 0.6  2996     0 marcov   /usr/bin/pulseaudio --start --log-target=syslog
+ 0.4 14925     2 marcov   [chrome] <defunct>
+ 0.3 29461     6 marcov   clementine
+ 0.3 25051     6 marcov   /usr/bin/python /usr/bin/x-terminal-emulator
+ 0.3 24249     6 marcov   iceweasel
+ 0.3 23233     5 marcov   emacs
+ 0.2 31348     6 marcov   pavucontrol
+ 0.2 28792     7 marcov   /opt/google/chrome/chrome
+ 0.1 31351     0 marcov   htop
+ 0.1 29170     6 marcov   icedove
+
+Malformed UTF-8 character (fatal) at /usr/share/perl/5.14/Text/Wrap.pm line 54, <STDIN> line 1.
+> ## Test whether we are allowed to scrape the STRI webpages
+> ##
+> setwd("~/symlinks/git/tRack/")
+> 
+> ## get basic scrape tools
+> source("./R/scRape_tools.R")
+> 
+> site <- "http://biogeodb.stri.si.edu"
+> target <- "physical_monitoring/research/barrocolorado"
+> 
+> scrapeStatus <- check_scrape(site,target)
+> 
+> if(scrapeStatus$scrape){
++ saveRDS(TRUE,"./tests/scrapeTest.rds")
++ } else{
++ saveRDS(FALSE,"./tests/scrapeTest.rds")
++ }
+> 
+> proc.time()
+   user  system elapsed 
+  0.264   0.036   2.128 
