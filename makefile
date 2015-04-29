@@ -5,8 +5,8 @@
 
 ## Setup 
 DATESECONDS= $(shell date +%s)
-#LASTUPDATE = $(shell stat -L --format %Y ./data/ClimateData.rdata)
-LASTUPDATE = $(shell stat -L --format %Y makefile)
+LASTUPDATE = $(shell stat -L --format %Y ./data/ClimateData.rdata)
+#LASTUPDATE = $(shell stat -L --format %Y makefile)
 DELTA = $(shell echo ${DATESECONDS}-${LASTUPDATE} | bc)
 UPDATEINTERVAL = $(shell ${30*24*60*60}  | bc)
 CV_DIR = .
