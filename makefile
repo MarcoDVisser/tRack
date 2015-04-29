@@ -15,9 +15,6 @@ TESTRESULT = ./tests/scrapeTest.rds
 GETDATA = ./R/GetClimateData.R
 CLIMATEDATA = ./data/ClimateData.rdata
 
-
-
-
 ## functions
 NEWFILE = touch '$<' 
 RNAME = cp '$<' '$@' 

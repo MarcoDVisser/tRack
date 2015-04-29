@@ -47,6 +47,11 @@ if(readRDS("./tests/DataDownLoad.rds")){
 
   text(coords[2]*.15,coords[4]*0.5,"Monthly Rainfall",col=rgb(1,1,1,alpha=0.5),
        cex=4)
+
+  text(coords[2]*.15,coords[4]*0.5,
+       expression(paste0(mu,"=",round(mean(rain,na.rm=TRUE),2)))
+       ,col=rgb(1,0,0,alpha=0.85), cex=2)
+
   grid(col="grey10")
 
   ## annuall rainfall
@@ -67,6 +72,11 @@ if(readRDS("./tests/DataDownLoad.rds")){
   text(coords[2]-50,coords[4]*0.25,"Annual Rainfall",col=rgb(1,1,1,alpha=0.5),
        cex=4)
 
+  text(coords[2]-50,coords[4]*0.75,
+       expression(paste0(mu,"=",round(mean(rain,na.rm=TRUE),2)))
+       ,col=rgb(1,0,0,alpha=0.85), cex=2)
+
+  
   grid(col="grey10")
 
 
@@ -86,12 +96,17 @@ if(readRDS("./tests/DataDownLoad.rds")){
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
-  lines(days[ord],y$fit[ord],col="green",lwd=2)
-  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
-  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord],col="red",lwd=2)
+  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="red",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="red",lwd=1.5,lty=2)
 
   text(coords[2]*.65,coords[4]*0.95,"Monthly Max Temp",col=rgb(1,1,1,alpha=0.5),
        cex=4)
+  text(coords[2]*65,coords[4]*0.8,
+       expression(paste0(mu,"=",round(mean(Temp,na.rm=TRUE),2)))
+       ,col=rgb(0,1,0,alpha=0.85), cex=2)
+
+ 
   grid(col="grey10")
 
   ## Annual max Temp
@@ -110,12 +125,17 @@ if(readRDS("./tests/DataDownLoad.rds")){
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
-  lines(days[ord],y$fit[ord],col="green",lwd=2)
-  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
-  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord],col="red",lwd=2)
+  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="red",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="red",lwd=1.5,lty=2)
 
   text(coords[2]-15,coords[4]*0.95,"Annaul Max Temp",col=rgb(1,1,1,alpha=0.5),
        cex=4)
+
+  text(coords[2]-15,coords[4]*0.9,
+       expression(paste0(mu,"=",round(mean(Temp,na.rm=TRUE),2)))
+       ,col=rgb(0,1,0,alpha=0.85), cex=2)
+
   grid(col="grey10")
 
 dev.off()  
