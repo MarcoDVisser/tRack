@@ -217,7 +217,7 @@ dev.off()
 
 if(readRDS("./tests/DataDownLoad.rds")){
 
-  png("./figures/BCIseasons.png",width=800,height=1200)
+  png("./figures/BCIseasons.png",width=1000,height=1000)
   ## load climate data
   if(!exists("BCIRain_historic")){
     load("./data/ClimateData.rdata") 
@@ -232,7 +232,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
 	       "BCIEvap"
               )
   ## Make a plot of the current and historic rainfall
-  par(mfrow=c(3,2),mar=c(4,4,1,1),las=1,bg="grey20",fg="white",
+  par(mfrow=c(2,2),mar=c(4,4,1,1),las=1,bg="grey20",fg="white",
   col.lab="white",col.axis="white")
 
   ## Combine data with historic rainfall
