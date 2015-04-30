@@ -55,7 +55,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
        ,col=rgb(1,1,0,alpha=0.85), cex=2)
   abline(h=mean(rain,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
 
-  grid(col="grey10")
+  grid(col="grey70")
 
   ## annuall rainfall
   rain <- tapply(rainFull, format(daysFull, '%Y'),sum)
@@ -80,7 +80,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
        ,col=rgb(1,1,0,alpha=0.85), cex=2)
   abline(h=mean(rain[-length(rain)],na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
   
-  grid(col="grey10")
+  grid(col="grey70")
 
 
   ## Monthly Temp
@@ -95,7 +95,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   ord <- order(days)
 
   plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
-       ,ylab="degree ~ C",xlab="Date",lwd=2,bty="l")
+       ,ylab=degree ~ C,xlab="Date",lwd=2,bty="l")
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
@@ -110,7 +110,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
        ,col=rgb(1,1,0,alpha=0.85), cex=2)
   abline(h=mean(Temp,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
  
-  grid(col="grey10")
+  grid(col="grey70")
 
   ## Annual max Temp
   temp <- get(filenames[[1]])
@@ -124,7 +124,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   ord <- order(days)
 
   plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
-       ,ylab="degree ~ C",xlab="Date",lwd=2,bty="l")
+       ,ylab=degree ~ C,xlab="Date",lwd=2,bty="l")
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
@@ -141,7 +141,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
 
   abline(h=mean(Temp,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
 
-  grid(col="grey10")
+  grid(col="grey70")
 
 ## Monthly Net rainfall
   temp <- get(filenames[[5]])
@@ -181,7 +181,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   abline(h=mean(netRain$nr,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
   abline(h=0,col=rgb(1,0,0,alpha=0.85),lty=2)
 
-  grid(col="grey10")
+  grid(col="grey70")
 
 ## Net annual drought length
   netRain$D<-netRain$nr<=0
@@ -205,7 +205,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   abline(h=mean(Dry,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
   abline(h=0,col=rgb(1,0,0,alpha=0.85),lty=2)
 
-  grid(col="grey10")
+  grid(col="grey70")
 
 dev.off()  
 } else {error("Get Climate Process Failed")}
