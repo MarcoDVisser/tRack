@@ -12,14 +12,16 @@ filelist <- list(
               "/physical_monitoring/downloads/bci_elect_20m_at.zip",
               "/physical_monitoring/downloads/bci_elect_lutzweir.zip",
               "/physical_monitoring/downloads/bci_elect_48m_wd.zip",
-              "/physical_monitoring/downloads/bci_manual_cl_ra.zip"
+              "/physical_monitoring/downloads/bci_manual_cl_ra.zip",
+	      "/physical_monitoring/downloads/bci_manual_cl_evap.zip"
                  )
 
 filenames <- list(
                "LutzTemp20m",
                "LutzRunoff",
                "LutzWindDirect",
-               "BCIRain"
+               "BCIRain",
+	       "BCIEvap"
               )
 
 .OldObjects <- ls()
@@ -34,8 +36,18 @@ if(readRDS("./tests/scrapeTest.rds")){
     download.file(paste0(site,filelist[[i]]),temp)
     zipfiles <- unzip(temp,list=TRUE)
     filenum <- grepl(".csv",zipfiles$Name)&!grepl("mx|mn|sd|1929",zipfiles$Name)
-    assign(filenames[[i]],
-           read.csv(unz(temp, zipfiles$Name[filenum]),header=TRUE))
+
+    tmpdat<-tryCatch(read.csv(unz(temp, zipfiles$Name[filenum]),header=TRUE),
+    error=function(e) NULL)
+    ## alternative extraction
+    if(is.null(tmpdat)){
+    system(paste0("unzip -o ", temp," -d /tmp/"))
+    tmpdat<-tryCatch(read.csv(paste0("/tmp/", zipfiles$Name[filenum]),header=TRUE),
+    error=function(e) NULL)
+     }
+         
+    assign(filenames[[i]],tmpdat)
+    rm(tmpdat)
     ## add historic rain data
     if(filenames[[i]]=="BCIRain"){
       filenum <- grepl(".csv",zipfiles$Name)&!grepl("mx|mn|sd|man",zipfiles$Name)
