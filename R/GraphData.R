@@ -19,7 +19,8 @@ if(readRDS("./tests/DataDownLoad.rds")){
 	       "BCIEvap"
               )
   ## Make a plot of the current and historic rainfall
-  par(mfrow=c(3,2),mar=c(4,4,1,1),las=1,bg="grey40")
+  par(mfrow=c(3,2),mar=c(4,4,1,1),las=1,bg="grey10",cex.axis=1.4,
+  cex.lab=1.4,fg="white",col.axis="white",col.lab="white")
 
   ## Combine data with historic rainfall
 
@@ -94,7 +95,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   ord <- order(days)
 
   plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
-       ,ylab="mm",xlab="Date",lwd=2,bty="l")
+       ,ylab="degree ~ C",xlab="Date",lwd=2,bty="l")
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
@@ -123,7 +124,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   ord <- order(days)
 
   plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
-       ,ylab="mm",xlab="Date",lwd=2,bty="l")
+       ,ylab="degree ~ C",xlab="Date",lwd=2,bty="l")
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
@@ -233,7 +234,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
               )
   ## Make a plot of the current and historic rainfall
   par(mfrow=c(2,2),mar=c(4,4,1,1),las=1,bg="grey20",fg="white",
-  col.lab="white",col.axis="white")
+  col.lab="white",col.axis="white",cex.lab=1.4,cex.axis=1.4)
 
   ## Combine data with historic rainfall
 
@@ -315,7 +316,7 @@ if(readRDS("./tests/DataDownLoad.rds")){
   ord <- order(days)
 
   plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
-       ,ylab="mm",xlab="Date",lwd=2,bty="l")
+       ,ylab=degree ~ C,xlab="Date",lwd=2,bty="l")
   coords <- par("usr")
   trend <- loess(Temp~as.numeric(days))
   y <- predict(trend,se=TRUE)
