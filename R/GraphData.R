@@ -1,4 +1,4 @@
- ## Graph BCI climate data
+## Graph BCI climate data
 setwd("~/symlinks/git/tRack/")
 
 ## Test whether climate data was downloaded and cleaned
@@ -205,6 +205,177 @@ if(readRDS("./tests/DataDownLoad.rds")){
   abline(h=0,col=rgb(1,0,0,alpha=0.85),lty=2)
 
   grid(col="grey10")
+
+dev.off()  
+} else {error("Get Climate Process Failed")}
+
+
+################################################################################
+## Seasonal rhythems
+################################################################################
+
+
+if(readRDS("./tests/DataDownLoad.rds")){
+
+  png("./figures/BCIseasons.png",width=800,height=1200)
+  ## load climate data
+  if(!exists("BCIRain_historic")){
+    load("./data/ClimateData.rdata") 
+  }
+
+  
+  filenames <- list(
+               "LutzTemp20m",
+               "LutzRunoff",
+               "LutzWindDirect",
+               "BCIRain",
+	       "BCIEvap"
+              )
+  ## Make a plot of the current and historic rainfall
+  par(mfrow=c(3,2),mar=c(4,4,1,1),las=1,bg="grey20",fg="white",
+  col.lab="white",col.axis="white")
+
+  ## Combine data with historic rainfall
+
+  temp <- get(filenames[[4]])
+
+  days <- as.Date(temp[,1])
+  daysHist <- as.Date(BCIRain_historic[,1],"%d/%m/%Y")
+
+  daysFull <- c(daysHist,days[days>as.Date("1971-12-31")])
+  rainFull <- c(BCIRain_historic[,2],temp[,2][days>as.Date("1971-12-31")])
+
+  rain <- tapply(rainFull, format(daysFull, '%m'),mean)
+  ndays <- tapply(format(daysFull, '%d-%m'), format(daysFull, '%m'),function(X)
+   	   			   	     length(unique(X)))
+  rain <- rain*ndays
+
+  ## monthly rainfall
+  days <- as.numeric(names(rain))
+  ord <- order(days)
+
+  plot(days[ord],rain[ord],type="l",col=rgb(0,0,1,alpha=0.4),
+       ,ylab="mm",xlab="Month",lwd=2,bty="l")
+  coords <- par("usr")
+  trend <- loess(rain~as.numeric(days))
+  y <- predict(trend,se=TRUE)
+  lines(days[ord],y$fit[ord],col="green",lwd=2)
+  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+
+  text(coords[2]*.5,coords[4]*0.5,"Monthly Rainfall",col=rgb(1,1,1,alpha=0.5),
+       cex=3.5)
+
+  text(coords[2]*.15,coords[4]*0.75,
+       bquote(mu == .(round(mean(rain,na.rm=TRUE),2)))
+       ,col=rgb(1,1,0,alpha=0.85), cex=2)
+  abline(h=mean(rain,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
+
+  grid(col="grey70")
+
+  ## Wind direction
+  temp <- get(filenames[[3]])
+
+  days <- as.Date(temp[,1])
+
+  deg <- tapply(temp[,2], format(days, '%m'),median,na.rm=TRUE)
+
+  ## monthly degfall
+  days <- as.numeric(names(deg))
+  ord <- order(days)
+
+  plot(days[ord],deg[ord],type="l",col=rgb(0,0,1,alpha=0.4),
+       ,ylab="mm",xlab="Month",lwd=2,bty="l")
+  coords <- par("usr")
+  trend <- loess(deg~as.numeric(days))
+  y <- predict(trend,se=TRUE)
+  lines(days[ord],y$fit[ord],col="green",lwd=2)
+  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+
+  text(coords[2]*.5,coords[4]*0.95,"Median Monthly Wind Direction",col=rgb(1,1,1,alpha=0.5),
+       cex=3.5)
+
+  text(coords[2]*.15,coords[4]*0.75,
+       bquote(mu == .(round(mean(deg,na.rm=TRUE),2)))
+       ,col=rgb(1,1,0,alpha=0.85), cex=2)
+  abline(h=mean(deg,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
+
+  grid(col="grey70")
+
+  ## Monthly Temp
+  temp <- get(filenames[[1]])
+
+  days <- as.Date(temp[,1])
+
+  Temp <- tapply(temp[,2], format(days, '%m'),max)
+
+  days <- as.numeric(names(Temp))
+  
+  ord <- order(days)
+
+  plot(days[ord],Temp[ord],type="l",col=rgb(0,0,1,alpha=0.4),
+       ,ylab="mm",xlab="Date",lwd=2,bty="l")
+  coords <- par("usr")
+  trend <- loess(Temp~as.numeric(days))
+  y <- predict(trend,se=TRUE)
+  lines(days[ord],y$fit[ord],col="green",lwd=2)
+  lines(days[ord],y$fit[ord]-2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+  lines(days[ord],y$fit[ord]+2*y$se.fit[ord],col="green",lwd=1.5,lty=2)
+
+  text(coords[2]*.65,coords[4]*0.95,"Monthly Max Temp",col=rgb(1,1,1,alpha=0.5),
+       cex=3.5)
+  text(coords[2]*.65,coords[4]*0.8,
+        bquote(mu == .(round(mean(Temp,na.rm=TRUE),2)))
+       ,col=rgb(1,1,0,alpha=0.85), cex=2)
+  abline(h=mean(Temp,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
+ 
+  grid(col="grey70")
+
+  ## Monthly Net rainfall
+  temp <- get(filenames[[5]])
+
+  days <- as.Date(temp[,1])
+
+  Evap <- tapply(temp[,2], format(days, '%m-%Y'),max)
+  rain<-rainFull 
+  rain <- rain[daysFull<=max(days)&daysFull>=min(days)]
+  rain <- tapply(rain, format(daysFull[daysFull<=max(days)&daysFull>=min(days)],
+  '%m-%Y'),sum)
+  
+  days <- as.Date(paste(1,names(Evap),sep="-"),"%d-%m-%Y")
+  raindays <- as.Date(paste(1,names(rain),sep="-"),"%d-%m-%Y")
+  netRain<-data.frame(rain=rain,days=raindays)
+  Evap<-data.frame(evap=Evap*10,days=days) 
+  netRain <- merge(netRain,Evap,by="days")
+  
+  netRain <- netRain[order(netRain$days),]
+  netRain$nr<-netRain$rain-netRain$evap
+
+  ## to months
+  nr<- tapply(netRain$nr, format(netRain$days, '%m'),mean)
+  
+  days <- as.numeric(names(nr))
+  
+  plot(days,nr,type="l",col=rgb(0,0,1,alpha=0.4),
+       ,ylab="mm",xlab="Date",lwd=2,bty="l")
+  coords <- par("usr")
+  trend <- loess(nr~as.numeric(days))
+  y <- predict(trend,se=TRUE)
+  
+  lines(days,y$fit,col="green",lwd=2)
+  lines(days,y$fit-2*y$se.fit,col="green",lwd=1.5,lty=2)
+  lines(days,y$fit+2*y$se.fit,col="green",lwd=1.5,lty=2)
+
+  text(coords[2]*.65,coords[4]*0.75,"Net rain",col=rgb(1,1,1,alpha=0.5),
+       cex=3.5)
+  text(coords[2]*.35,coords[4]*0.6,
+        bquote(mu == .(round(mean(nr,na.rm=TRUE),2)))
+       ,col=rgb(1,1,0,alpha=0.85), cex=2)
+  abline(h=mean(nr,na.rm=TRUE),col=rgb(1,1,0,alpha=0.85),lty=2)
+  abline(h=0,col=rgb(1,0,0,alpha=0.85),lty=2)
+
+  grid(col="grey70")
 
 dev.off()  
 } else {error("Get Climate Process Failed")}
