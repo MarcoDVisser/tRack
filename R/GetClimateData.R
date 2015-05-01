@@ -27,7 +27,10 @@ filenames <- list(
 .OldObjects <- ls()
 
 if(readRDS("./tests/scrapeTest.rds")){
- ## First assume download fails
+
+  Delay <- readRDS("./tests/scrapeDelay.rds")
+
+  ## First assume download fails
   saveRDS(FALSE,"./tests/DataDownLoad.rds")
 
   for(i in 1:length(filelist)){
@@ -53,7 +56,10 @@ if(readRDS("./tests/scrapeTest.rds")){
       filenum <- grepl(".csv",zipfiles$Name)&!grepl("mx|mn|sd|man",zipfiles$Name)
       assign("BCIRain_historic",
            read.csv(unz(temp, zipfiles$Name[filenum]),header=TRUE))
-    
+
+
+      ## lag script to conform to potential robots.txt delay
+      Sys.sleep(Delay)
     }
     unlink(temp)
 }

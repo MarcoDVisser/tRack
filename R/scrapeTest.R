@@ -11,7 +11,8 @@ target <- "physical_monitoring/research/barrocolorado"
 scrapeStatus <- check_scrape(site,target)
 
 if(scrapeStatus$scrape){
-saveRDS(TRUE,"./tests/scrapeTest.rds")
+  saveRDS(TRUE,"./tests/scrapeTest.rds")
+  saveRDS(scrapeStatus[["delay"]],"./tests/scrapeDelay.rds")
 } else{
 saveRDS(FALSE,"./tests/scrapeTest.rds")
 }

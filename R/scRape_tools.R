@@ -20,4 +20,3 @@ check_scrape <- function(site="http://talkstats.com",
     list(scrape = scrape, delay = delay) #Use: `Sys.sleep(delay)`
 }
 
-check_scrape()

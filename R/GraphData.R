@@ -381,3 +381,94 @@ if(readRDS("./tests/DataDownLoad.rds")){
 dev.off()  
 } else {error("Get Climate Process Failed")}
         
+
+## temperature animation
+if(readRDS("./tests/DataDownLoad.rds")){
+
+  ## load climate data
+  if(!exists("BCIRain_historic")){
+    load("./data/ClimateData.rdata") 
+  }
+
+  
+  filenames <- list(
+               "LutzTemp20m",
+               "LutzRunoff",
+               "LutzWindDirect",
+               "BCIRain",
+	       "BCIEvap"
+              )
+  
+  require(animation)
+ 
+  PlotClimate <- function(y=temp[,2],Ts=days,func=max,ylb=degree ~ C,
+                          ylm=c(25,37),delay=0.1){
+
+    ## Make a plot 
+  par(mfrow=c(1,1),mar=c(4,4,1,1),las=1,bg="grey20",fg="white",
+  col.lab="white",col.axis="white",cex.lab=1.4,cex.axis=1.4)
+
+  Y <- tapply(y, format(Ts, '%d-%m-%Y'),func)
+  Days <- as.Date(names(Y),'%d-%m-%Y')
+  years <- as.numeric((format(Days, '%Y')))
+
+  fulldat <- vector("list",length(unique(years)))
+
+ 
+  for(j in 1:length(unique(years))) {
+    i <- sort(unique(years))[j]
+    days <- Days[years==i]
+    Yi <- tapply(Y[years==i], format(days, '%m'),func,na.rm=TRUE)
+    Months <- as.numeric(names(Yi))
+    dati <- data.frame(Yi,Months)
+    dati <- dati[order(Months),]
+    fulldat[[j]] <- dati
+
+    plot(0,0,type="n",col=rgb(1,0,0,alpha=0.99),
+         ,ylab=ylb,xlab="Month",lwd=2,bty="l",xlim=c(1,12),
+         ylim=ylm,lty=2)
+   
+    grid(col="grey70")
+    
+    opaci <- seq(0.1,.7,length.out=length(unique(years)))
+    for(z in 1:j){
+      lines(fulldat[[z]]$Yi~fulldat[[z]]$Months,col=rgb(1,1,1,alpha=opaci[z]),
+            lwd=2)
+    }
+      lines(dati$Yi~dati$Months,col=rgb(1,0,0,alpha=.99),
+            lwd=2)
+    text(6,ylm[2]*0.97,i,col=rgb(1,1,1,alpha=0.5),cex=3.5)
+    abline(h=mean(do.call(rbind,fulldat)$Yi,na.rm=TRUE),col='red',lty=3)
+      Sys.sleep(delay)
+    }
+  
+}
+
+  temp <- get(filenames[[1]])
+
+  days <- as.Date(temp[,1])
+
+  setwd("./figures")
+  saveGIF(PlotClimate(delay=0.07), movie.name = "BCItemp.gif")
+  
+  ## Rain animation
+  temp <- get(filenames[[4]])
+
+  days <- as.Date(temp[,1])
+  daysHist <- as.Date(BCIRain_historic[,1],"%d/%m/%Y")
+
+  daysFull <- c(daysHist,days[days>as.Date("1971-12-31")])
+  rainFull <- c(BCIRain_historic[,2],temp[,2][days>as.Date("1971-12-31")])
+
+
+  rain <- tapply(rainFull, format(daysFull, '%m'),mean)
+  ndays <- tapply(format(daysFull, '%d-%m'), format(daysFull, '%m'),function(X)
+   	   			   	     length(unique(X)))
+  saveGIF(PlotClimate(y=rainFull,Ts=daysFull,delay=0.01,func=sum,
+                      ylm=c(0,1500),ylb="mm rain"),
+          movie.name = "BCIrain.gif")
+  setwd("../")
+
+  
+          dev.off()  
+} else {error("Get Climate Process Failed")}
