@@ -438,18 +438,19 @@ if(readRDS("./tests/DataDownLoad.rds")){
       lines(dati$Yi~dati$Months,col=rgb(1,0,0,alpha=.99),
             lwd=2)
     text(6,ylm[2]*0.97,i,col=rgb(1,1,1,alpha=0.5),cex=3.5)
-    abline(h=mean(do.call(rbind,fulldat)$Yi,na.rm=TRUE),col='red',lty=3)
+    abline(h=mean(do.call(rbind,fulldat)$Yi,na.rm=TRUE),col='red',lty=3,
+           lwd=3)
       Sys.sleep(delay)
     }
   
 }
 
-  temp <- get(filenames[[1]])
+   temp <- get(filenames[[1]])
 
   days <- as.Date(temp[,1])
 
   setwd("./figures")
-  saveGIF(PlotClimate(delay=0.07), movie.name = "BCItemp.gif")
+  saveGIF(PlotClimate(delay=0.07), movie.name = "BCItemperature.gif")
   
   ## Rain animation
   temp <- get(filenames[[4]])

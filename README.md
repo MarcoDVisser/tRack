@@ -7,18 +7,18 @@ It is build on a test-driven platform, and uses a makefile to initiate webscrapi
 ## Animations
 ## Long term trends
 
-![bci climate](figures/BCItemp.gif)
+![bci climate](figures/BCItemperature.gif)
 
 ![bci climate](figures/BCIrain.gif)
 
 
 ## Long term trends
 
-![bci climate](https://raw.githubusercontent.com/MarcoDVisser/tRack/master/figures/BCIclimate.png)
+![bci climate](figures/BCIclimate.png)
 
 ## Seasonal rhythms 
 
-![bci climate](https://raw.githubusercontent.com/MarcoDVisser/tRack/master/figures/BCIseasons.png)
+![bci climate](figures/BCIseasons.png)
 
 
 ### Acknowledgements
