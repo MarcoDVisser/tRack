@@ -7,9 +7,9 @@ It is build on a test-driven platform, and uses a makefile to initiate webscrapi
 ## Animations
 ## Long term trends
 
-![bci climate](https://raw.githubusercontent.com/MarcoDVisser/tRack/master/figures/BCItemp.gif)
+![bci climate](figures/BCItemp.gif)
 
-![bci climate](https://raw.githubusercontent.com/MarcoDVisser/tRack/master/figures/BCIrain)
+![bci climate](figures/BCIrain.gif)
 
 
 ## Long term trends
